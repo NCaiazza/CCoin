@@ -19,24 +19,39 @@ public class Miner {
 		transactions = new ArrayList<>();
 	}
 	
+	/**
+	 * This method adds the transaction t to the miner's pool of transactions.
+	 */
 	public void addTransactionToPool(CCoinTransaction t) {
 		transactions.add(t);
 	}
 	
+	/**
+	 * This method removes the block the miner was currently mining and replaces it with an empty block.
+	 */
 	public void setCurrentBlockToEmptyBlock(int difficulty) {
 		this.currentBlock = new Block(difficulty, Network.getInstance().getBlockReward());
 	}
 	
+	/**
+	 * This method returns the miner of the block.
+	 */
 	public User getMiner() {
 		return name;
 	}
 	
+	/**
+	 * This method removes a transaction from the miner's pool of transactions and adds it to the list of transactions in the block.
+	 */
 	public void addTransactionToBlock() {
 		CCoinTransaction t = transactions.get(0);
 		transactions.remove(0);
 		this.currentBlock.addTransaction(t);
 	}
 	
+	/**
+	 * This method has the miner attempt to mine their block.
+	 */
 	public Integer mine() {
 		
 		String hash = "";

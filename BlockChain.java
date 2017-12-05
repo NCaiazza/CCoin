@@ -53,7 +53,7 @@ public class BlockChain {
 	}
 	
 	/**
-	 * This method retruns the last block added to the blockchain.
+	 * This method returns the last block added to the blockchain.
 	 */
 	
 	public Block lastBlockAdded() {

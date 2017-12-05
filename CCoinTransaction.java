@@ -10,35 +10,53 @@ public class CCoinTransaction {
 	private User recipient;
 	private double amount;
 	private double transactionFee;
-	
-	public User getSender() {
-		return sender;
-	}
-
-	public User getRecipient() {
-		return recipient;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
-	public double getTransactionFee() {
-		return transactionFee;
-	}
-
-	public void setTransactionFee(double transactionFee) {
-		this.transactionFee = transactionFee;
-	}
 
 	public CCoinTransaction(User sender, User recipient, double amount, double transactionFee) {
 		this.sender = sender;
 		this.recipient = recipient;
 		this.amount = amount;
+		this.transactionFee = transactionFee;
+	}
+	
+	/**
+	 * This method returns the sender of the transaction.
+	 */
+	public User getSender() {
+		return sender;
+	}
+
+	/**
+	 * This method returns the recipient of the transaction.
+	 */
+	public User getRecipient() {
+		return recipient;
+	}
+
+	/**
+	 * This method returns the amount of CCoin send to the receiver.
+	 */
+	public double getAmount() {
+		return amount;
+	}
+	
+	/**
+	 * This method sets the amount of CCoin sent to the receiver.
+	 */
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	/**
+	 * This method returns the transaction fee of the transaction.
+	 */
+	public double getTransactionFee() {
+		return transactionFee;
+	}
+
+	/**
+	 * This method sets the transaction fee of the transaction.
+	 */
+	public void setTransactionFee(double transactionFee) {
 		this.transactionFee = transactionFee;
 	}
 	

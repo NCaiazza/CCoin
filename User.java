@@ -9,18 +9,30 @@ public class User {
 		this.ccoinAmount = amount;
 	}
 
+	/**
+	 * This method returns the name of the user.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * This method returns the CCoin balance of the user.
+	 */
 	public double getBalance() {
 		return ccoinAmount;
 	}
 
+	/**
+	 * This method withdraws ccoinAmount from the user's balance.
+	 */
 	public void withdraw(double ccoinAmount) {
 		this.ccoinAmount -= ccoinAmount;
 	}
 	
+	/**
+	 * This method deposits ccoinAmount into the user's balance.
+	 */
 	public void deposit(double ccoinAmount) {
 		this.ccoinAmount += ccoinAmount;
 	}

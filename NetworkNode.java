@@ -6,6 +6,9 @@ public class NetworkNode {
 	
 	public NetworkNode() {}
 	
+	/**
+	 * This method checks if the transaction t is a valid transaction.
+	 */
 	public boolean verifyTransaction(CCoinTransaction t) {
 		
 		if (!Network.getInstance().containsUser(t.getRecipient()) ||
@@ -19,18 +22,27 @@ public class NetworkNode {
 		return true;
 	}
 	
+	/**
+	 * This method checks if the block b is a valid block.
+	 */
 	public boolean verifyBlock(Block b) {
 		
 		
 		return false;
 	}
 	
+	/**
+	 * This method returns the node's blockchain.  If the node does not have a blockchain, a new blockchain is returned.
+	 */
 	public BlockChain getBlockchain() {
 		if (!blockchain.equals(null))
 			return blockchain;
 		return new BlockChain();
 	}
 	
+	/**
+	 * This method initializes the node's blockchain.
+	 */
 	public void initBlockchain() {
 		this.blockchain = Network.getInstance().getABlockchain();
 	}
