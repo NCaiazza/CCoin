@@ -36,4 +36,9 @@ public class User {
 	public void deposit(double ccoinAmount) {
 		this.ccoinAmount += ccoinAmount;
 	}
+	
+	@Override
+	public String toString() {
+		return "Name: " + this.name + ", Balance: " + this.ccoinAmount;
+	}
 }

@@ -30,7 +30,7 @@ public class Block {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256"); // Set hash algorithm to SHA-256
 			String temp = previousBlock.hashify(); // Get string version of previous block
-			md.update(temp.getBytes()); // Update the Digest of md to be the has of the previous block
+			md.update(temp.getBytes()); // Update the Digest of md to be the hash of the previous block
 			this.previousHash = Arrays.toString(md.digest()); // Set the previous hash to be the digest of md
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace(); // If SHA-256 is not found (It should be): error
@@ -38,7 +38,7 @@ public class Block {
 		
 		if (this.previousHash == null) { // If for some reason the previous hash is not set by this point, there is an error
 			System.out.println("ERROR CREATING BLOCK"); // This code should never run
-			System.exit(1); 
+			System.exit(1); // This code should never run
 		}
 		
 		this.timestamp = t;
@@ -107,8 +107,8 @@ public class Block {
 			for (int i = 0; i < transactions.size(); i++) {
 				temp += transactions.get(i).hash(); // Get string version of previous block
 			}
-			md.update(temp.getBytes()); // Update the Digest of md to be the has of the previous block
-			return Arrays.toString(md.digest()); // Set the previous hash to be the digest of md
+			md.update(temp.getBytes()); // Update the Digest of md to be the hash of all transactions in the block
+			return Arrays.toString(md.digest());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace(); // If SHA-256 is not found (It should be): error
 		}
@@ -137,8 +137,8 @@ public class Block {
 		
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256"); // Set hash algorithm to SHA-256
-			md.update(temp.getBytes()); // Update the Digest of md to be the has of the previous block
-			temp = Arrays.toString(md.digest()); // Set the previous hash to be the digest of md
+			md.update(temp.getBytes()); // Update the Digest of md to be the hash of this block
+			temp = Arrays.toString(md.digest());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace(); // If SHA-256 is not found (It should be): error
 		}

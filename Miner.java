@@ -9,7 +9,7 @@ public class Miner {
 
 	private User name;
 	private String id;
-	private Block currentBlock;
+	private Block currentBlock = null;
 	private ArrayList<CCoinTransaction> transactions;
 	private int salt;
 	
@@ -49,31 +49,76 @@ public class Miner {
 		this.currentBlock.addTransaction(t);
 	}
 	
+	public Block getCurrentBlock() {
+		return this.currentBlock;
+	}
+	
+	/**
+	 * This method is used to get the bit at the index: index of a byte.
+	 */
+	private Byte getBit(Byte b, int index) {
+		if (index < 8 && index > -1) {
+			Byte newByte = b; // Set a new byte to this.b
+			
+			for (int i = 0; i < 8; i++) {
+				if (i != index) {
+					newByte = (byte) (newByte & ~(1 << i)); // Set every bit in newByte but the one we want to 0
+				}
+			}
+			
+			if (index != 0) {
+				return (byte) (newByte >> index);
+			}
+			
+			return newByte;
+		}
+		
+		return 0;
+	}
+	
 	/**
 	 * This method has the miner attempt to mine their block.
 	 */
 	public Integer mine() {
+		
+		if (this.currentBlock == null) {
+			
+		}
 		
 		String hash = "";
 		
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256"); // Set hash algorithm to SHA-256
 			String temp = currentBlock.hashify(); // Get string version of block
-			md.update(temp.getBytes()); // Update the Digest of md to be the has of the previous block
-			hash = Arrays.toString(md.digest()); // Set the previous hash to be the digest of md
+			String temp2 = temp + this.salt;
+			md.update(temp2.getBytes()); // Update the Digest of md to be the hash that hopefully satisfies the difficulty
+			hash = Arrays.toString(md.digest());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace(); // If SHA-256 is not found (It should be): error
 		}
 		
-		System.out.println(hash); // For debugging
-		char[] chars = hash.toCharArray();
+		System.out.println(hash);
 		
-		for (int i = 0; i < currentBlock.getDifficulty(); i++) {
-			if (chars[i] != '0') {
+		byte[] ba = hash.getBytes();
+		int checked = 0;
+		int i = 0;
+		int checkedCount = 0;
+		
+		while (checked < currentBlock.getDifficulty()) {
+			if (!(checkedCount < 8)) {
+				i++;
+				checkedCount = 0;
+			}
+			
+			if (getBit(ba[i], (checked % 8)) != 0) {
+				this.salt++;
 				return null;
+			} else {
+				checked++;
+				checkedCount++;
 			}
 		}
 		
-		return this.salt;
+		return salt;
 	}
 }

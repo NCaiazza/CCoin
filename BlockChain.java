@@ -6,7 +6,7 @@ public class BlockChain {
 	private LinkedList<Block> blockChain;
 	
 	public BlockChain() {
-		this.blockChain = new LinkedList<Block>(); //Create the block chain
+		this.blockChain = new LinkedList<Block>(); //Create the blockchain
 		this.blockChain.add(new Block(new LinkedList<CCoinTransaction>(),
 				new Timestamp(),
 				new Block(0, Network.getInstance().getBlockReward()),
@@ -65,10 +65,10 @@ public class BlockChain {
 		String output = "";
 		int counter = 0;
 		
-		for (Block b : blockChain) {
+		for (int i = 0; i < blockChain.size(); i++) {
 			output = output + "Block: " + counter + "\n";
 			counter++;
-			output += b.toString();
+			output += blockChain.get(i).toString();
 			output += "\n\n";
 		}
 		

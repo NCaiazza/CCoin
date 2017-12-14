@@ -6,7 +6,10 @@ public class Network {
 	
 	private ArrayList<User> users;
 	private ArrayList<NetworkNode> networkNodes;
+	private int numberOfCCoin = 0;
 	private static Network network = new Network();
+	
+	private static int maxCCoin = 10000000;
 	
 	private Network() {
 		users = new ArrayList<>();
@@ -18,6 +21,20 @@ public class Network {
 	 */
 	public static Network getInstance() {
 		return network;
+	}
+	
+	/**
+	 * This method sets the total number of CCoin in circulation.  There will only ever be 10 million CCoin in circulation, this method is used to affect the block
+	 * reward.
+	 */
+	protected void setNumberCCoin() {
+		int newCCoinTotal = 0;
+		
+		for (User u : users) {
+			newCCoinTotal += u.getBalance();
+		}
+		
+		this.numberOfCCoin = newCCoinTotal;
 	}
 	
 	/**
@@ -38,7 +55,7 @@ public class Network {
 	 * This method returns the current block reward for mining a block.
 	 */
 	protected double getBlockReward() {
-		return 50; // Test value
+		return 50; // This will result in 200,000 blocks mined before there will no longer be a reward
 	}
 	
 	/**
@@ -59,7 +76,7 @@ public class Network {
 	 * This method has every node of the network verify the block b.  If each node agrees that b is a valid block, the method returns true, otherwise,
 	 * the method returns false.
 	 */
-	public boolean verifyBlock(Block b, Miner m) {
+	public void verifyBlock(Block b, Miner m, DigitalSignature ds) {
 		boolean verified = true;
 		for (int i = 0; i < networkNodes.size(); i++) {
 			if (!(networkNodes.get(i).verifyBlock(b))) {
@@ -67,19 +84,21 @@ public class Network {
 			}
 		}
 		
-		if (verified) {
+		if (verified && ds.verifySignature()) {
 			for (int i = 0; i < networkNodes.size(); i++) {
 				networkNodes.get(i).getBlockchain().addBlock(b);
 			}
 			
-			m.getMiner().deposit(b.getReward());
+			setNumberCCoin();
+			
+			if (this.numberOfCCoin < maxCCoin) {
+				m.getMiner().deposit(b.getReward());
+			}
 			
 			for (int i = 0; i < b.getTransactions().size(); i++) {
 				m.getMiner().deposit(b.getTransactions().get(i).getTransactionFee());
 			}
 		}
-		
-		return verified;
 		
 	}
 	

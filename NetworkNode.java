@@ -27,8 +27,19 @@ public class NetworkNode {
 	 */
 	public boolean verifyBlock(Block b) {
 		
+		if (b.getDifficulty() > 0) {
+			return false;
+		}
 		
-		return false;
+		if (!Network.getInstance().containsUser(b.getMiner().getMiner())) {
+			return false;
+		}
+		
+		if (Network.getInstance().getABlockchain().lastBlockAdded().getThisHash() != b.getPreviousHash()) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**

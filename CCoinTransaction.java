@@ -64,12 +64,17 @@ public class CCoinTransaction {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256"); // Set hash algorithm to SHA-256
 			String temp = this.recipient.toString() + this.transactionFee + this.sender.toString() + this.amount;
-			md.update(temp.getBytes()); // Update the Digest of md to be the has of the previous block
-			return Arrays.toString(md.digest()); // Set the previous hash to be the digest of md
+			md.update(temp.getBytes()); // Update the Digest of md to be the hash of the transaction
+			return Arrays.toString(md.digest());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace(); // If SHA-256 is not found (It should be): error
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public String toString() {
+		return this.sender.getName() + " sent " + this.amount + " to " + this.recipient.getName() + " with a transaction fee of " + this.transactionFee;
 	}
 }
